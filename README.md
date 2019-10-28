@@ -55,7 +55,7 @@ cd ~/catkin_ws
 catkin_make
 ```
 
-# Running the Demo
+## Running the Demo
 In a new terminal, launch ROS through:
 ```
 roscore
