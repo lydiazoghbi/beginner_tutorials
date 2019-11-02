@@ -32,7 +32,7 @@
  *  @file       listener.cpp
  *  @author     Lydia Zoghbi
  *  @copyright  Copyright BSD License
- *  @date       10/27/2019
+ *  @date       11/02/2019
  *  @version    1.0
  *
  *  @brief      Listener file for the ENPM808X ROS Assignment
@@ -42,6 +42,7 @@
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "beginner_tutorials/string_modifier.h"
 
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.

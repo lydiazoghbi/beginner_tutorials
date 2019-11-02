@@ -42,6 +42,18 @@
 #include <sstream>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "beginner_tutorials/string_modifier.h"
+
+std::string str;
+
+
+bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_tutorials::string_modifier::Response &res) {
+ str = req.input;
+ res.output = "Modified " + str;
+ return true;
+}
+
+
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -85,6 +97,8 @@ int main(int argc, char **argv) {
    */
   auto chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
+  auto server = n.advertiseService("string_modifier", &stringModifier);
+
   ros::Rate loop_rate(10);
 
   /**
@@ -99,7 +113,7 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "This is my custom string message. Regards, Lydia. " << count;
+    ss << "str" << count;
     msg.data = ss.str();
 
     ROS_INFO("%s", msg.data.c_str());
