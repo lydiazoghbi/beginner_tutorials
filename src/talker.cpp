@@ -32,7 +32,7 @@
  *  @file       talker.cpp
  *  @author     Lydia Zoghbi
  *  @copyright  Copyright BSD License
- *  @date       10/27/2019
+ *  @date       11/02/2019
  *  @version    1.0
  *
  *  @brief      Talker file for the ENPM808X ROS Assignment
