@@ -44,8 +44,17 @@
 #include "std_msgs/String.h"
 #include "beginner_tutorials/string_modifier.h"
 
+// Define the standard message at the beginning, the extern reports a warning but I'm not sure how to get rid of it, it was the only solution i found for eliminating the cpplint error
 extern std::string str = "Another customized message by Lydia: ";
 
+/**
+ *  @brief      Main function for modifiying a string through a server
+ *
+ *  @param      Takes as input a request message
+ *  @param	Takes as input a response message
+ *
+ *  @return     Returns true after successfully being called
+ */
 bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_tutorials::string_modifier::Response &res) {
  str = req.input;
  res.output = "String has been now modified to "+ str;
@@ -55,49 +64,29 @@ bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_
 
 
 /**
- * This tutorial demonstrates simple sending of messages over the ROS system.
+ *  @brief      Main function for running ROS continuously
+ *
+ *  @param      ROS argument count
+ *  @param	ROS argument vector
+ *
+ *  @return     A 0 technically, but will effectively output whatever is inside 
  */
 int main(int argc, char **argv) {
-  /**
-   * The ros::init() function needs to see argc and argv so that it can perform
-   * any ROS arguments and name remapping that were provided at the command line.
-   * For programmatic remappings you can use a different version of init() which takes
-   * remappings directly, but for most command-line programs, passing argc and argv is
-   * the easiest way to do it.  The third argument to init() is the name of the node.
-   *
-   * You must call one of the versions of ros::init() before using any other
-   * part of the ROS system.
-   */
+
+// Initialize ros and name it as talker
   ros::init(argc, argv, "talker");
 
-  /**
-   * NodeHandle is the main access point to communications with the ROS system.
-   * The first NodeHandle constructed will fully initialize this node, and the last
-   * NodeHandle destructed will close down the node.
-   */
+// NodeHandle is the main access point to communications with the ROS system.
   ros::NodeHandle n;
 
-  /**
-   * The advertise() function is how you tell ROS that you want to
-   * publish on a given topic name. This invokes a call to the ROS
-   * master node, which keeps a registry of who is publishing and who
-   * is subscribing. After this advertise() call is made, the master
-   * node will notify anyone who is trying to subscribe to this topic name,
-   * and they will in turn negotiate a peer-to-peer connection with this
-   * node.  advertise() returns a Publisher object which allows you to
-   * publish messages on that topic through a call to publish().  Once
-   * all copies of the returned Publisher object are destroyed, the topic
-   * will be automatically unadvertised.
-   *
-   * The second parameter to advertise() is the size of the message queue
-   * used for publishing messages.  If messages are published more quickly
-   * than we can send them, the number here specifies how many messages to
-   * buffer up before throwing some away.
-   */
+// Initialize the advertiser
   auto chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
+// Initialize the server
   ros::ServiceServer server = n.advertiseService("string_modifier", &stringModifier);
   int freq = 10;
+
+// If ROS is received 2 inputs arguments, one of them must be the frequency
   if (argc == 2) {
 	ROS_DEBUG_STREAM("User did input a different frequency");
 	if (atoi(argv[1]) < 0) {
@@ -114,37 +103,34 @@ int main(int argc, char **argv) {
 	}
 }
 
+// Set the frequency at which ROS will publish/iterate its main loop
   ros::Rate loop_rate(freq);
-  /**
-   * A count of how many messages we have sent. This is used to create
-   * a unique string for each message.
-   */
+
+// Just a counter for outputting values
   int count = 0;
+
+// While ROS is running fine, no fatal errors
   while (ros::ok()) {
 
   ROS_DEBUG_STREAM("The publisher frequency is now "<<freq<<" Hz");
 
-    /**
-     * This is a message object. You stuff it with data, and then publish it.
-     */
+// Create message object
     std_msgs::String msg;
 
+// Output a string in the terminal
     std::stringstream ss;
     ss << str << count;
     msg.data = ss.str();
 
     ROS_INFO("%s", msg.data.c_str());
 
-    /**
-     * The publish() function is how you send messages. The parameter
-     * is the message object. The type of this object must agree with the type
-     * given as a template parameter to the advertise<>() call, as was done
-     * in the constructor above.
-     */
+// Send a msg object to the chatter
     chatter_pub.publish(msg);
 
+// Loop once for handling events
     ros::spinOnce();
 
+// Wait until the frequency period has elapsed to loop second time to preserve frequency
     loop_rate.sleep();
     ++count;
   }
