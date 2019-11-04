@@ -1,0 +1,8 @@
+<launch>
+
+  <arg name = "rate" default = "10" />
+  <node pkg = "beginner_tutorials" name = "publisher" type = "talker" output = "screen" args = "$(arg rate)" />
+  <node pkg = "beginner_tutorials" name = "subscriber" type = "listener" output = "screen" />
+
+</launch>
+
