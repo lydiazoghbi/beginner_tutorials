@@ -32,19 +32,13 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## Overview
-This package demonstrates a basic publisher/subscriber example in ROS. The publisher sends out a pre-determined message, which is received and displayed by the subscriber. The example follows teh tutorials on [link]http://wiki.ros.org/ROS/Tutorials/ExaminingPublisherSubscriber. The code follows Google style guide, and C++11 features.
+This package demonstrates a basic publisher/subscriber example in ROS. The publisher sends out a pre-determined message, which is received and displayed by the subscriber. The example follows teh tutorials on http://wiki.ros.org/ROS/Tutorials/ExaminingPublisherSubscriber. The code follows Google style guide, and C++11 features.
 
 ## Assumptions & Dependencies
-This code was developed and tested on Ubuntu 16.04.6 using ROS Kinetic. 
+This code was developed and tested on Ubuntu 16.04.6 using ROS Kinetic. We are assuming that your catkin workspace ~/catkin_ws is already initialized.
 
 ## Installing and Building Instructions
-Start by creating and initializing the catkin workspace from the terminal:
-```
-mkdir -p catkin_ws/src
-cd ~/catkin_ws/src
-catkin_init_workspace
-```
-If you already have a workspace, then run the following commands in the terminal:
+Run the following commands in the terminal:
 ```
 cd ~/catkin_ws/src
 git clone --recursive https://github.com/lydiazoghbi/beginner_tutorials.git
@@ -73,3 +67,22 @@ source devel/setup.bash
 rosrun beginner_tutorials listener
 ```
 You now should see the custom message that was published on the subscriber terminal.
+
+## Running the Demo from the Launch file
+Close the talker and listener terminals from the previous section. Leave roscore running, or initialize it if you haven't done that already. In a new terminal, type the following:
+```
+source devel/setup.bash
+roslaunch beginner_tutorials fileLaunch.launch
+```
+This will automatically launch both listeners and talkers. If you wish to modify the rate at which the information is being published, you can do so by adding an additional argument to roslaunch as follows:
+```
+roslaunch beginner_tutorials fileLaunch.launch rate:=5
+```
+Error or warning messages will appear if you select a negative, null or too high of a frequency.
+
+## Running the Demo with a Subscriber
+If you wish to modify the string published by the talker, you can do so through a subscriber embedded in the code. Launch ROS using roscore, source the setup.bash file, and in a new terminal type the following:
+```
+rosservice call /string_modifier <string>
+```
+Replace <string> with any string you wish. 
