@@ -81,8 +81,9 @@ roslaunch beginner_tutorials fileLaunch.launch rate:=5
 Error or warning messages will appear if you select a negative, null or too high of a frequency.
 
 ## Running the Demo with a Subscriber
-If you wish to modify the string published by the talker, you can do so through a subscriber embedded in the code. Launch ROS using roscore, source the setup.bash file, and in a new terminal type the following:
+If you wish to modify the string published by the talker, you can do so through a subscriber embedded in the code. Follow instructions in the Demo using Launch file, and in a new terminal type the following:
 ```
+source devel/setup.bash
 rosservice call /string_modifier <string>
 ```
-Replace <string> with any string you wish. 
+Replace <string> with any string you wish. If you go to the terminal where the launch file was used, the string output must have changed.
