@@ -44,15 +44,13 @@
 #include "std_msgs/String.h"
 #include "beginner_tutorials/string_modifier.h"
 
-std::string str;
-
+std::string str = "Another customized message by Lydia: ";
 
 bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_tutorials::string_modifier::Response &res) {
  str = req.input;
- res.output = "Modified " + str;
+ res.output = str;
  return true;
 }
-
 
 
 /**
@@ -97,7 +95,7 @@ int main(int argc, char **argv) {
    */
   auto chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
-  auto server = n.advertiseService("string_modifier", &stringModifier);
+  ros::ServiceServer server = n.advertiseService("string_modifier", &stringModifier);
 
   ros::Rate loop_rate(10);
 
@@ -113,7 +111,7 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "str" << count;
+    ss << str << count;
     msg.data = ss.str();
 
     ROS_INFO("%s", msg.data.c_str());
