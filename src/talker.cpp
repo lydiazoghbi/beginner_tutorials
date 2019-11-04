@@ -49,6 +49,7 @@ std::string str = "Another customized message by Lydia: ";
 bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_tutorials::string_modifier::Response &res) {
  str = req.input;
  res.output = "String has been now modified to "+ str;
+ ROS_WARN_STREAM(res.output);
  return true;
 }
 
@@ -96,15 +97,36 @@ int main(int argc, char **argv) {
   auto chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
   ros::ServiceServer server = n.advertiseService("string_modifier", &stringModifier);
+  int freq = 10;
+  if (argc == 2) {
+	ROS_DEBUG_STREAM("User did input a different frequency");
+	if (atoi(argv[1]) < 0) {
+		ROS_ERROR_STREAM("Frequency can't be negative, you're drunk, 10 Hz is assumed");
+		freq = 10;
+	}
+	else if (atoi(argv[1]) == 0) {
+		ROS_FATAL_STREAM("To publish or not to publish? That is the question!");
+		return 1;
+	}
+	else if (atoi(argv[1]) >= 50000) {
+		ROS_WARN_STREAM("You sure your pc can handle a rate of 0.02 ms?");
+		freq = atoi(argv[1]);
+	}
+	else {  freq = atoi(argv[1]);
+		ROS_INFO_STREAM("Thank you for showing some reason!");
+	}
+}
 
-  ros::Rate loop_rate(10);
-
+  ros::Rate loop_rate(freq);
   /**
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
    */
   int count = 0;
   while (ros::ok()) {
+
+  ROS_DEBUG_STREAM("The publisher frequency is now "<<freq<<" Hz");
+    
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
