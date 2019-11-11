@@ -39,14 +39,11 @@
  *
  */
 
+#include <tf/transform_broadcaster.h>
 #include <sstream>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "beginner_tutorials/string_modifier.h"
-#include <tf/transform_broadcaster.h>
-
-// Define the standard message at the beginning
-static std::string str = "Another customized message by Lydia: ";
 
 /**
  *  @brief      Main function for modifiying a string through a server
@@ -57,8 +54,9 @@ static std::string str = "Another customized message by Lydia: ";
  *  @return     Returns true after successfully being called
  */
 bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_tutorials::string_modifier::Response &res) {
- str = req.input;
- res.output = str;
+ std::string message;
+ message = req.input;
+ res.output = message;
  ROS_WARN_STREAM(res.output);
  return true;
 }
@@ -75,6 +73,9 @@ int main(int argc, char **argv) {
 
 // Initialize ros and name it as talker
   ros::init(argc, argv, "talker");
+
+// Initialize the message because cpplint wants to be a pain
+  std::string message = "Another customized message by Lydia: ";
 
 // NodeHandle is the main access point to communications with the ROS system.
   ros::NodeHandle n;
@@ -124,7 +125,7 @@ int main(int argc, char **argv) {
 
 // Output a string in the terminal
     std::stringstream ss;
-    ss << str << count;
+    ss << message << count;
     msg.data = ss.str();
 
     ROS_INFO("%s", msg.data.c_str());

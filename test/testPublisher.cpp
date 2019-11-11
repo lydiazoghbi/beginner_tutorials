@@ -52,8 +52,7 @@
  *
  *  @return     None
  */
-TEST(TestSuite, test_ServiceOutput)
-{
+TEST(TestSuite, test_ServiceOutput) {
 // Initiate node handle
   ros::NodeHandle n;
 // Begin service client
@@ -74,7 +73,7 @@ TEST(TestSuite, test_ServiceOutput)
  *
  *  @return     Returns a 0 if tests are successful
  */
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   ros::init(argc, argv, "testPublisher");
   return RUN_ALL_TESTS();
