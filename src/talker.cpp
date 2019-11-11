@@ -46,7 +46,7 @@
 #include "beginner_tutorials/string_modifier.h"
 
 // Initialize the message because cpplint wants to be a pain
-std::string message = "Another customized message by Lydia: ";
+extern std::string message = "Another customized message by Lydia: ";
 
 /**
  *  @brief      Main function for modifiying a string through a server
