@@ -45,6 +45,9 @@
 #include "std_msgs/String.h"
 #include "beginner_tutorials/string_modifier.h"
 
+// Initialize the message because cpplint wants to be a pain
+std::string message = "Another customized message by Lydia: ";
+
 /**
  *  @brief      Main function for modifiying a string through a server
  *
@@ -54,7 +57,6 @@
  *  @return     Returns true after successfully being called
  */
 bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_tutorials::string_modifier::Response &res) {
- std::string message;
  message = req.input;
  res.output = message;
  ROS_WARN_STREAM(res.output);
@@ -73,9 +75,6 @@ int main(int argc, char **argv) {
 
 // Initialize ros and name it as talker
   ros::init(argc, argv, "talker");
-
-// Initialize the message because cpplint wants to be a pain
-  std::string message = "Another customized message by Lydia: ";
 
 // NodeHandle is the main access point to communications with the ROS system.
   ros::NodeHandle n;
