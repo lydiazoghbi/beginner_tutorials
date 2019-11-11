@@ -74,14 +74,16 @@ bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_
  */
 int main(int argc, char **argv) {
 
-static tf::TransformBroadcaster br;
-tf::Transform transform;
-
 // Initialize ros and name it as talker
   ros::init(argc, argv, "talker");
 
 // NodeHandle is the main access point to communications with the ROS system.
   ros::NodeHandle n;
+
+
+static tf::TransformBroadcaster br;
+tf::Transform transform;
+
 
 // Initialize the advertiser
   auto chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
@@ -133,7 +135,7 @@ tf::Transform transform;
 
 transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
 
-tfQuaternion q;
+tf::Quaternion q;
 q.setRPY(0.0, 0.0, 0.0);
 transform.setRotation(q);
 
