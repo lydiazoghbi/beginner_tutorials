@@ -32,7 +32,7 @@
  *  @file       talker.cpp
  *  @author     Lydia Zoghbi
  *  @copyright  Copyright BSD License
- *  @date       11/02/2019
+ *  @date       11/10/2019
  *  @version    1.0
  *
  *  @brief      Talker file for the ENPM808X ROS Assignment
@@ -43,9 +43,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "beginner_tutorials/string_modifier.h"
-
-// Define the standard message at the beginning, the extern reports a warning but I'm not sure how to get rid of it, it was the only solution i found for eliminating the cpplint error
-extern std::string str = "Another customized message by Lydia: ";
+#include <tf/transform_broadcaster.h>
 
 /**
  *  @brief      Main function for modifiying a string through a server
@@ -73,6 +71,9 @@ bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_
  */
 int main(int argc, char **argv) {
 
+static tf::TransformBroadcaster br;
+tf::Transform transform;
+
 // Initialize ros and name it as talker
   ros::init(argc, argv, "talker");
 
@@ -83,7 +84,7 @@ int main(int argc, char **argv) {
   auto chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
 // Initialize the server
-  ros::ServiceServer server = n.advertiseService("string_modifier", &stringModifier);
+  auto server = n.advertiseService("string_modifier", &stringModifier);
   int freq = 10;
 
 // If ROS is received 2 inputs arguments, one of them must be the frequency
@@ -107,7 +108,7 @@ int main(int argc, char **argv) {
   ros::Rate loop_rate(freq);
 
 // Just a counter for outputting values
-  int count = 0;
+  auto count = 0;
 
 // While ROS is running fine, no fatal errors
   while (ros::ok()) {
@@ -124,8 +125,16 @@ int main(int argc, char **argv) {
 
     ROS_INFO("%s", msg.data.c_str());
 
-// Send a msg object to the chatter
+// Send a msg object to the chattercatki
     chatter_pub.publish(msg);
+
+transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
+
+tf::Quaternion q;
+q.setRPY(0.0, 0.0, 0.0);
+transform.setRotation(q);
+
+br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
 
 // Loop once for handling events
     ros::spinOnce();
