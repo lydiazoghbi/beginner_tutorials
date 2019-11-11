@@ -45,6 +45,9 @@
 #include "beginner_tutorials/string_modifier.h"
 #include <tf/transform_broadcaster.h>
 
+// Define the standard message at the beginning, the extern reports a warning but I'm not sure how to get rid of it, it was the only solution i found for eliminating the cpplint error
+extern std::string str = "Another customized message by Lydia: ";
+
 /**
  *  @brief      Main function for modifiying a string through a server
  *
@@ -130,7 +133,7 @@ tf::Transform transform;
 
 transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
 
-tf::Quaternion q;
+tfQuaternion q;
 q.setRPY(0.0, 0.0, 0.0);
 transform.setRotation(q);
 
