@@ -1,8 +1,8 @@
 <launch>
-  <arg name = "record_publishing" default = "false"/>
+  <arg name = "record" default = "false"/>
   <arg name = "rate" default = "10" />
   <node pkg = "beginner_tutorials" name = "publisher" type = "talker" output = "screen" args = "$(arg rate)" />
   <node pkg = "beginner_tutorials" name = "subscriber" type = "listener" output = "screen" />
-  <node pkg="rosbag" type ="record_publishing" name="rosbag_record_publishing" args="record /publisher" output="screen" if="$(arg record_publisher)"/>
+  <node pkg="rosbag" type ="record" name="record_record_all" args="--all --output-name=$(find beginner_tutorials)/Results/rosbagResults.bag" output="screen" if="$(arg record)"/>
 </launch>
 
