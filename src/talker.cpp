@@ -58,7 +58,7 @@ extern std::string str = "Another customized message by Lydia: ";
  */
 bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_tutorials::string_modifier::Response &res) {
  str = req.input;
- res.output = "String has been now modified to "+ str;
+ res.output = str;
  ROS_WARN_STREAM(res.output);
  return true;
 }

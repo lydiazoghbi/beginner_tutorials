@@ -1,7 +1,6 @@
 <launch>
 
   <node pkg = "beginner_tutorials" name = "publisher" type = "talker"/>
-  <test pkg = "beginner_tutorials" test-name = "testPublisher" type = "test"/>
+  <test pkg = "beginner_tutorials" test-name = "testPublisher" type = "testPublisher"/>
 
 </launch>
-s

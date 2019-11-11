@@ -28,6 +28,6 @@ add_dependencies(listener beginner_tutorials_generate_messages_cpp)
 ## Adding testing packages
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
-  add_rostest_gtest(testPublisher launch/testPublisher.launch Test/testPublisher.cpp)
+  add_rostest_gtest(testPublisher test/testPublisher.launch test/testPublisher.cpp)
   target_link_libraries(testPublisher ${catkin_LIBRARIES})
 endif()
