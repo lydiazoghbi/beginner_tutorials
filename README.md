@@ -87,3 +87,41 @@ source devel/setup.bash
 rosservice call /string_modifier <string>
 ```
 Replace <string> with any string you wish. If you go to the terminal where the launch file was used, the string output must have changed.
+
+## Inspecting Transform Frames
+A frame is broadcast from the talker node with a fixed rotation and translation. To inspect the frame, launch the talker and listener nodes as per the instructions above, and in a new terminal type:
+```
+source devel/setup.bash
+rosrun tf tf_echo /world /talk
+```
+Detailed information on the broadcast transform will appear in the terminal (namely time, translation coordinates, and rotation in both Quaternion and Roll-Pitch-Yaw angles). If you want to visualize the broadcast frame in a tree graph type the following in a new terminal:
+```
+source devel/setup.bash
+rosrun rqt_tf_graph rqt_tf_graph
+```
+
+## Running Rostest
+To check if your code passes the unit tests developed, in a new terminal type the following:
+```
+catkin_make run_tests_beginner_tutorials
+```
+You will see a summary report in the terminal with the number of passing or failing tests.
+
+## Recording Bag Files
+If you wish to record all topics into a .bag file, type the following in a new terminal (make sure roscore is still running, otherwise launch it again):
+```
+source devel/setup.bash
+roslaunch beginner_tutorials fileLaunch.launch record:=true
+```
+The command will save a rosbag file named rosbagResults.bag into the Results directory. If you don't enable the rosbag by setting the record to true, it will not create a bag file as its default is set to false. 
+You cannot open the file in a text editor, so to inspect it you can type the following:
+```
+rosbag info Results/rosbagResults.bag
+```
+The content of the rosbag will subsequently be displayed in the terminal.
+If you wish to play the bag file, kill all processes except for the roscore, launch only the listener again in a new terminal, then in a third terminal, type the following:
+```
+cd src/beginner_tutorials/Results
+rosbag play rosbagResults.bag
+```
+You will be able to see the information registered in the bag file on the listener terminal.
