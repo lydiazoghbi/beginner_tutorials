@@ -32,7 +32,7 @@
  *  @file       talker.cpp
  *  @author     Lydia Zoghbi
  *  @copyright  Copyright BSD License
- *  @date       11/10/2019
+ *  @date       11/11/2019
  *  @version    1.0
  *
  *  @brief      Talker file for the ENPM808X ROS Assignment
@@ -46,7 +46,7 @@
 #include <tf/transform_broadcaster.h>
 
 // Define the standard message at the beginning, the extern reports a warning but I'm not sure how to get rid of it, it was the only solution i found for eliminating the cpplint error
-extern std::string str = "Another customized message by Lydia: ";
+static std::string str = "Another customized message by Lydia: ";
 
 /**
  *  @brief      Main function for modifiying a string through a server
@@ -62,7 +62,6 @@ bool stringModifier(beginner_tutorials::string_modifier::Request &req, beginner_
  ROS_WARN_STREAM(res.output);
  return true;
 }
-
 
 /**
  *  @brief      Main function for running ROS continuously
