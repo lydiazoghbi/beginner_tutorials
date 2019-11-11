@@ -35,7 +35,7 @@
  *  @date       11/11/2019
  *  @version    1.0
  *
- *  @brief      Listener file for the ENPM808X ROS Assignment
+ *  @brief      Test file for the ENPM808X ROS Assignment
  *
  */
 
@@ -45,20 +45,35 @@
 #include <beginner_tutorials/string_modifier.h>
 #include <tf/transform_listener.h>
 
-
-// Declare a test
+/**
+ *  @brief      Test function
+ *
+ *  @param      None
+ *
+ *  @return     None
+ */
 TEST(TestSuite, test_ServiceOutput)
 {
+// Initiate node handle
   ros::NodeHandle n;
+// Begin service client
   ros::ServiceClient client = n.serviceClient<beginner_tutorials::string_modifier>("string_modifier");
   beginner_tutorials::string_modifier srv;
+// Send string request to modify the original one
   srv.request.input = "see if it works";
+// Call the client
   client.call(srv);
+// Compare actual output to expected one
   EXPECT_STREQ("see if it works", srv.response.output.c_str());
 }
 
-
-// Run all the tests that were declared with TEST()
+/**
+ *  @brief      Run all the tests that were declared with TEST()
+ *
+ *  @param      None
+ *
+ *  @return     Returns a 0 if tests are successful
+ */
 int main(int argc, char **argv){
   testing::InitGoogleTest(&argc, argv);
   ros::init(argc, argv, "testPublisher");

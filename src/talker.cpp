@@ -45,7 +45,7 @@
 #include "beginner_tutorials/string_modifier.h"
 #include <tf/transform_broadcaster.h>
 
-// Define the standard message at the beginning, the extern reports a warning but I'm not sure how to get rid of it, it was the only solution i found for eliminating the cpplint error
+// Define the standard message at the beginning
 static std::string str = "Another customized message by Lydia: ";
 
 /**
@@ -79,9 +79,9 @@ int main(int argc, char **argv) {
 // NodeHandle is the main access point to communications with the ROS system.
   ros::NodeHandle n;
 
-
-static tf::TransformBroadcaster br;
-tf::Transform transform;
+// Initialize the transform
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
 
 
 // Initialize the advertiser
@@ -117,7 +117,7 @@ tf::Transform transform;
 // While ROS is running fine, no fatal errors
   while (ros::ok()) {
 
-  ROS_DEBUG_STREAM("The publisher frequency is now "<<freq<<" Hz");
+    ROS_DEBUG_STREAM("The publisher frequency is now "<<freq<<" Hz");
 
 // Create message object
     std_msgs::String msg;
@@ -132,13 +132,16 @@ tf::Transform transform;
 // Send a msg object to the chattercatki
     chatter_pub.publish(msg);
 
-transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
+// Define the (xyz) position of the transform
+    transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
 
-tf::Quaternion q;
-q.setRPY(0.0, 0.0, 0.0);
-transform.setRotation(q);
+// Define the roll-pitch-yaw orientation of the transform
+    tf::Quaternion q;
+    q.setRPY(0.0, 0.0, 0.0);
+    transform.setRotation(q);
 
-br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
+// Broadcast the transform
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
 
 // Loop once for handling events
     ros::spinOnce();
