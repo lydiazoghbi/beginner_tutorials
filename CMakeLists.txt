@@ -4,7 +4,7 @@ project(beginner_tutorials)
 add_compile_options(-std=c++11)
 
 ## Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS message_generation roscpp rospy std_msgs)
+find_package(catkin REQUIRED COMPONENTS message_generation roscpp rospy std_msgs tf)
 
 ## Adding the service files
 add_service_files(FILES string_modifier.srv)
